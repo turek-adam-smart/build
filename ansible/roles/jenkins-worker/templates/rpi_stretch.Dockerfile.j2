@@ -12,14 +12,15 @@ ENV LC_ALL=C \
     OSVARIANT=docker \
     DESTCPU=arm \
     ARCH={{ arch }} \
-    CCACHE_TEMPDIR/home/{{ server_user }}/.ccache/{{ inventory_hostname }}
+    CCACHE_TEMPDIR=/home/{{ server_user }}/.ccache/{{ inventory_hostname }} \
+    DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get dist-upgrade -y && apt-get install -y \
       g++-6 \
       gcc-6 \
+      git \
       make \
       ccache \
-      git \
       python2.7 \
       python \
       openssh-client \
