@@ -1,10 +1,5 @@
-#!/NODEJS2/bin/bash
-
-su -s - iojs <<'EOF'
-
-export PATH=/NODEJS/bin:$PATH
+#!/bin/bash
 export HOME={{ home }}/{{ server_user }}
-export NODE_COMMON_PIPE="$HOME/test.pipe"
 export NODE_TEST_DIR="$HOME/tmp"
 export JOBS="{{ jobs_env }}"
 export OSTYPE=zos
