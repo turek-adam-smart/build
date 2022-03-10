@@ -9,6 +9,7 @@
   ansible.builtin.dnf:
     name: ['GConf2-devel', 'python2', 'python2-pip', 'python3-httplib2']
     state: present
+  notify: package updated
 
 - name: update python package alternatives
   community.general.alternatives:
