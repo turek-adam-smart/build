@@ -8,7 +8,7 @@ import { exit } from 'node:process';
 const testcases = [
   {
     name: 'No rclone',
-    version: 'v22.12.0',
+    version: 'v24.20.0',
     expectedStdout: '',
     setup: async function setup (context) {
       const command = `rclone lsjson ${context.r2StagingDir} --no-modtime --no-mimetype -R --max-depth 2`;
@@ -29,110 +29,110 @@ const testcases = [
   },
   {
     name: 'Everything is in staging, nothing in dist, good to go',
-    version: 'v22.12.0',
+    version: 'v24.20.0',
     expectedStdout:
       '... Checking R2 assets\n' +
-      '... Expecting a total of 47 assets for v22.x\n' +
-      '... 47 assets waiting in R2 staging\n' +
+      '... Expecting a total of 40 assets for v24.x\n' +
+      '... 40 assets waiting in R2 staging\n' +
       '... 0 assets already promoted in R2\n' +
-      ' \u001b[32m\u001b[1m✓\u001b[22m\u001b[39m  Complete set of expected assets in place for v22.x\n',
+      ' \u001b[32m\u001b[1m✓\u001b[22m\u001b[39m  Complete set of expected assets in place for v24.x\n',
     setup: async function setup (context) {
-      context.rcloneLs[context.r2StagingDir] = await fixture('all-present-v22.12.0.json');
+      context.rcloneLs[context.r2StagingDir] = await fixture('all-present-v24.20.0.json');
     }
   },
   {
     name: 'Not quite everything is in staging, missing two assets, nothing in dist',
-    version: 'v22.12.0',
+    version: 'v24.20.0',
     expectedStdout:
       '... Checking R2 assets\n' +
-      '... Expecting a total of 47 assets for v22.x\n' +
-      '... 45 assets waiting in R2 staging\n' +
+      '... Expecting a total of 40 assets for v24.x\n' +
+      '... 38 assets waiting in R2 staging\n' +
       '... 0 assets already promoted in R2\n' +
-      ' \x1B[33m\x1B[1m⚠\x1B[22m\x1B[39m  The following assets are expected for v22.x but are currently missing from R2 staging:\n' +
-      '    • node-v22.12.0-linux-armv7l.tar.gz\n' +
-      '    • node-v22.12.0-linux-armv7l.tar.xz\n' +
+      ' \x1B[33m\x1B[1m⚠\x1B[22m\x1B[39m  The following assets are expected for v24.x but are currently missing from R2 staging:\n' +
+      '    • node-v24.20.0-linux-x64-musl.tar.gz\n' +
+      '    • node-v24.20.0-linux-x64-musl.tar.xz\n' +
       '    \u001b[33mPromote if you are certain this is the the correct course of action\u001b[39m\n',
     setup: async function setup (context) {
-      context.rcloneLs[context.r2StagingDir] = await fixture('partial-v22.12.0.json');
+      context.rcloneLs[context.r2StagingDir] = await fixture('partial-v24.20.0.json');
     }
   },
   {
     name: 'Everything is in staging and everything in dist',
-    version: 'v22.12.0',
+    version: 'v24.20.0',
     expectedStdout:
       '... Checking R2 assets\n' +
-      '... Expecting a total of 47 assets for v22.x\n' +
-      '... 47 assets waiting in R2 staging\n' +
-      ' \u001b[33m\u001b[1m⚠\u001b[22m\u001b[39m  47 assets already promoted in R2 will be overwritten, is this OK?\n' +
-      ' \u001b[32m\u001b[1m✓\u001b[22m\u001b[39m  Complete set of expected assets in place for v22.x\n' +
+      '... Expecting a total of 40 assets for v24.x\n' +
+      '... 40 assets waiting in R2 staging\n' +
+      ' \u001b[33m\u001b[1m⚠\u001b[22m\u001b[39m  40 assets already promoted in R2 will be overwritten, is this OK?\n' +
+      ' \u001b[32m\u001b[1m✓\u001b[22m\u001b[39m  Complete set of expected assets in place for v24.x\n' +
       '    \u001b[33mPromote if you are certain this is the the correct course of action\u001b[39m\n',
     setup: async function setup (context) {
-      context.rcloneLs[context.r2StagingDir] = await fixture('all-present-v22.12.0.json');
-      context.rcloneLs[context.r2DistDir] = await fixture('all-present-v22.12.0.json');
+      context.rcloneLs[context.r2StagingDir] = await fixture('all-present-v24.20.0.json');
+      context.rcloneLs[context.r2DistDir] = await fixture('all-present-v24.20.0.json');
     }
   },
   {
-    name: 'Everything is in dist except for the armv7l files, but they are in staging',
-    version: 'v22.12.0',
+    name: 'Everything is in dist except for the x64-musl files, but they are in staging',
+    version: 'v24.20.0',
     expectedStdout:
       '... Checking R2 assets\n' +
-      '... Expecting a total of 47 assets for v22.x\n' +
-      '... 47 assets waiting in R2 staging\n' +
-      ' \u001b[33m\u001b[1m⚠\u001b[22m\u001b[39m  45 assets already promoted in R2 will be overwritten, is this OK?\n' +
-      ' \u001b[32m\u001b[1m✓\u001b[22m\u001b[39m  Complete set of expected assets in place for v22.x\n' +
+      '... Expecting a total of 40 assets for v24.x\n' +
+      '... 40 assets waiting in R2 staging\n' +
+      ' \u001b[33m\u001b[1m⚠\u001b[22m\u001b[39m  38 assets already promoted in R2 will be overwritten, is this OK?\n' +
+      ' \u001b[32m\u001b[1m✓\u001b[22m\u001b[39m  Complete set of expected assets in place for v24.x\n' +
       '    \u001b[33mPromote if you are certain this is the the correct course of action\u001b[39m\n',
     setup: async function setup (context) {
-      context.rcloneLs[context.r2StagingDir] = await fixture('all-present-v22.12.0.json');
-      context.rcloneLs[context.r2DistDir] = await fixture('partial-v22.12.0.json');
+      context.rcloneLs[context.r2StagingDir] = await fixture('all-present-v24.20.0.json');
+      context.rcloneLs[context.r2DistDir] = await fixture('partial-v24.20.0.json');
     }
   },
   {
-    name: 'Everything is in dist except for the armv7l files, but they are in staging. Ignores SHASUMS in staging.',
-    version: 'v22.12.0',
+    name: 'Everything is in dist except for the x86-musl files, but they are in staging. Ignores SHASUMS in staging.',
+    version: 'v24.20.0',
     expectedStdout:
       '... Checking R2 assets\n' +
-      '... Expecting a total of 47 assets for v22.x\n' +
-      '... 47 assets waiting in R2 staging\n' +
-      ' \u001b[33m\u001b[1m⚠\u001b[22m\u001b[39m  45 assets already promoted in R2 will be overwritten, is this OK?\n' +
-      ' \u001b[32m\u001b[1m✓\u001b[22m\u001b[39m  Complete set of expected assets in place for v22.x\n' +
+      '... Expecting a total of 40 assets for v24.x\n' +
+      '... 40 assets waiting in R2 staging\n' +
+      ' \u001b[33m\u001b[1m⚠\u001b[22m\u001b[39m  38 assets already promoted in R2 will be overwritten, is this OK?\n' +
+      ' \u001b[32m\u001b[1m✓\u001b[22m\u001b[39m  Complete set of expected assets in place for v24.x\n' +
       '    \u001b[33mPromote if you are certain this is the the correct course of action\u001b[39m\n',
     setup: async function setup (context) {
-      context.rcloneLs[context.r2StagingDir] = await fixture('with-shasums-v22.12.0.json');
-      context.rcloneLs[context.r2DistDir] = await fixture('partial-v22.12.0.json');
+      context.rcloneLs[context.r2StagingDir] = await fixture('with-shasums-v24.20.0.json');
+      context.rcloneLs[context.r2DistDir] = await fixture('partial-v24.20.0.json');
     }
   },
   {
-    name: 'Everything is in dist except for the armv7l files, but they are in staging. Ignores SHASUMS in dist.',
-    version: 'v22.12.0',
+    name: 'Everything is in dist except for the x64-musl files, but they are in staging. Ignores SHASUMS in dist.',
+    version: 'v24.20.0',
     expectedStdout:
       '... Checking R2 assets\n' +
-      '... Expecting a total of 47 assets for v22.x\n' +
-      '... 47 assets waiting in R2 staging\n' +
-      ' \u001b[33m\u001b[1m⚠\u001b[22m\u001b[39m  45 assets already promoted in R2 will be overwritten, is this OK?\n' +
-      ' \u001b[32m\u001b[1m✓\u001b[22m\u001b[39m  Complete set of expected assets in place for v22.x\n' +
+      '... Expecting a total of 40 assets for v24.x\n' +
+      '... 40 assets waiting in R2 staging\n' +
+      ' \u001b[33m\u001b[1m⚠\u001b[22m\u001b[39m  38 assets already promoted in R2 will be overwritten, is this OK?\n' +
+      ' \u001b[32m\u001b[1m✓\u001b[22m\u001b[39m  Complete set of expected assets in place for v24.x\n' +
       '    \u001b[33mPromote if you are certain this is the the correct course of action\u001b[39m\n',
     setup: async function setup (context) {
-      context.rcloneLs[context.r2StagingDir] = await fixture('with-shasums-v22.12.0.json');
-      context.rcloneLs[context.r2DistDir] = await fixture('partial-with-shasums-v22.12.0.json');
+      context.rcloneLs[context.r2StagingDir] = await fixture('with-shasums-v24.20.0.json');
+      context.rcloneLs[context.r2DistDir] = await fixture('partial-with-shasums-v24.20.0.json');
     }
   },
   {
     name: 'Unexpected files in dist',
-    version: 'v22.12.0',
+    version: 'v24.20.0',
     expectedStdout:
       '... Checking R2 assets\n' +
-      '... Expecting a total of 47 assets for v22.x\n' +
-      '... 47 assets waiting in R2 staging\n' +
+      '... Expecting a total of 40 assets for v24.x\n' +
+      '... 40 assets waiting in R2 staging\n' +
       '... 2 assets already promoted in R2\n' +
-      ' \u001b[32m\u001b[1m✓\u001b[22m\u001b[39m  Complete set of expected assets in place for v22.x\n' +
-      ' \x1B[31m\x1B[1m✖\x1B[22m\x1B[39m  The following assets were already promoted in R2 but are not expected for v22.x:\n' +
+      ' \u001b[32m\u001b[1m✓\u001b[22m\u001b[39m  Complete set of expected assets in place for v24.x\n' +
+      ' \x1B[31m\x1B[1m✖\x1B[22m\x1B[39m  The following assets were already promoted in R2 but are not expected for v24.x:\n' +
       '    • foo.tar.gz\n' +
       '    • bar.tar.xz\n' +
-      '    Does the expected assets list for v22.x need to be updated?\n' +
-      '    https://github.com/nodejs/build/tree/main/ansible/www-standalone/tools/promote/expected_assets/v22.x\n' +
+      '    Does the expected assets list for v24.x need to be updated?\n' +
+      '    https://github.com/nodejs/build/tree/main/ansible/www-standalone/tools/promote/expected_assets/v24.x\n' +
       '    \u001b[33mPromote if you are certain this is the the correct course of action\u001b[39m\n',
       setup: async function setup (context) {
-      context.rcloneLs[context.r2StagingDir] = await fixture('all-present-v22.12.0.json');
+      context.rcloneLs[context.r2StagingDir] = await fixture('all-present-v24.20.0.json');
       context.rcloneLs[context.r2DistDir] = await fixture('unexpected-files.json');
     }
   },
@@ -201,7 +201,7 @@ describe(`${basename(import.meta.filename, '.mjs')} tests`, async () => {
     captureConsole(context);
     const exitFunc = context.mock.fn();
     process.exit = exitFunc;
-    await check_r2_assets.checkArgs([ process.execPath, 'check_r2_assets.mjs', 'foo', 'v22.12.0' ]);
+    await check_r2_assets.checkArgs([ process.execPath, 'check_r2_assets.mjs', 'foo', 'v24.20.0' ]);
     process.exit = exit;
     restoreConsole();
     assert.strictEqual(exitFunc.mock.callCount(), 1);
@@ -214,7 +214,7 @@ describe(`${basename(import.meta.filename, '.mjs')} tests`, async () => {
     captureConsole(context);
     const exitFunc = context.mock.fn();
     process.exit = exitFunc;
-    await check_r2_assets.checkArgs([ process.execPath, 'check_r2_assets.mjs', 'v22.12.0', 'bar' ]);
+    await check_r2_assets.checkArgs([ process.execPath, 'check_r2_assets.mjs', 'v24.20.0', 'bar' ]);
     process.exit = exit;
     restoreConsole();
     assert.strictEqual(exitFunc.mock.callCount(), 1);
