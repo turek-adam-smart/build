@@ -24,6 +24,7 @@ if [ "$DONTSELECT_COMPILER" != "DONT" ]; then
     *arm64* ) SELECT_ARCH=ARM64 ;;
     *armv7l* ) SELECT_ARCH=ARMV7L ;;
     *ibmi74* ) SELECT_ARCH=IBMI74 ;;
+    *riscv64* ) SELECT_ARCH=RISCV64 ;;
   esac
 fi
 
@@ -36,6 +37,13 @@ fi
 # Gradual transition to Clang from Node.js 25 (https://github.com/nodejs/build/issues/4091).
 if [ "$NODEJS_MAJOR_VERSION" -ge "25" ]; then
   case $NODE_NAME in
+    *riscv64*)
+        echo "Using Clang for Node.js $NODEJS_MAJOR_VERSION"
+        export CC="ccache clang-21"
+        export CXX="ccache clang++-21"
+        echo "Compiler set to Clang" `${CXX} -dumpversion`
+        return
+      ;;
     *aix*)
       # AIX does not support building v25 with clang so restrict to >25
       if [ "$NODEJS_MAJOR_VERSION" -ge "26" ]; then
